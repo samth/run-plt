@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [[ "$PLTHOME" = "" ]]; then
+ PLTHOME="$HOME/sw/plt"
+else
+ : # unset PLTCOLLECTS
+fi
+export PLTHOME PLTCOLLECTS
+if [[ ! -d "$PLTHOME" ]]; then
+ echo "plt-run: missing PLTHOME directory: $PLTHOME" 1>&2; exit 1
+fi
+
+# the executable name is whatever link is running this
+EXE="`basename \"$0\"`"
+
+# or run this script and give it an executable argument
+if [[ "$EXE" = "plt-run" && "$1" != "" ]]; then EXE="$1"; shift; fi
+
+# short names
+if [[ "${#EXE}" -le 5 ]]; then
+ case "$EXE" in
+   ( mz ) EXE="mzscheme" ;;
+   ( r  ) EXE="racket" ;;
+   ( rt ) EXE="raco" ;;
+   ( mr ) EXE="mred"     ;;
+   ( dr ) EXE="drracket" ;;
+   ( mzcgc ) EXE="mzschemecgc" ;;
+   ( mrcgc ) EXE="mredcgc"     ;;
+   ( drcgc ) EXE="drracketcgc" ;;
+ esac
+fi
+
+BIN="$PLTHOME/bin"
+
+# simple PLT directory
+EXE="$BIN/$EXE"
+if [[ -x "$EXE" ]]; then exec "$EXE" "$@"
+else "plt-run: $EXE not found in $BIN" 1>&2; exit 1; fi
+
+
