@@ -5,7 +5,11 @@ if [[ "$PLTHOME" = "" ]]; then
 else
  : # unset PLTCOLLECTS
 fi
-export PLTHOME PLTCOLLECTS
+
+PLTADDONDIR="$PLTHOME/add-on"
+
+export PLTHOME PLTCOLLECTS PLTADDONDIR
+
 if [[ ! -d "$PLTHOME" ]]; then
  echo "plt-run: missing PLTHOME directory: $PLTHOME" 1>&2; exit 1
 fi
