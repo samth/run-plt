@@ -28,9 +28,11 @@ if [[ "${#EXE}" -le 5 ]]; then
    ( rt ) EXE="raco" ;;
    ( mr ) EXE="mred"     ;;
    ( dr ) EXE="drracket" ;;
+   ( gr ) EXE="gracket" ;;
    ( mzcgc ) EXE="mzschemecgc" ;;
    ( mrcgc ) EXE="mredcgc"     ;;
    ( drcgc ) EXE="drracketcgc" ;;
+   ( grcgc ) EXE="gracketcgc" ;;
  esac
 fi
 
