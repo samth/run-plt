@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd /home/samth/sw/plt/src/build
+time make -j 10
+time make -j 10 plain-install
+#time raco setup -D --no-user -j 10
+time raco setup --no-user -j 10
+
