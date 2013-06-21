@@ -21,11 +21,8 @@ if [[ "$EXE" = "plt-run" && "$1" != "" ]]; then EXE="$1"; shift; fi
 if [[ "${#EXE}" -le 5 ]]; then
  case "$EXE" in
    ( r  ) EXE="racket" ;;
-   ( rt ) EXE="raco" ;;
    ( dr ) EXE="drracket" ;;
    ( gr ) EXE="gracket" ;;
-   ( drcgc ) EXE="drracketcgc" ;;
-   ( grcgc ) EXE="gracketcgc" ;;
  esac
 fi
 
