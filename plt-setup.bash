@@ -11,6 +11,7 @@ function pltswitch() {
    PLTHOME="$H" PLTCOLLECTS="" "$@"
  fi
 }
+
 function plt() {
- pltswitch ~/sw/plt "$@"
+ pltswitch $DEFAULT_PLTHOME "$@"
 }

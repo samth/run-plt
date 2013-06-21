@@ -1,4 +1,4 @@
 run-plt
 =======
 
-Use takikawa/racket-dev-goodies instead.
+See also takikawa/racket-dev-goodies.

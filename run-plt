@@ -1,21 +1,18 @@
 #!/bin/bash
 
+# the executable name is whatever link is running this
+EXE="`basename \"$0\"`"
+
 if [[ "$PLTHOME" = "" ]]; then
- PLTHOME="$HOME/sw/plt"
-else
- : # unset PLTCOLLECTS
+   echo "$EXE: PLTHOME has not been set." 1>&2; exit -1
+fi
+if [[ ! -d "$PLTHOME" ]]; then
+ echo "$EXE: PLTHOME directory does not exist: $PLTHOME" 1>&2; exit -11
 fi
 
 PLTADDONDIR="$PLTHOME/add-on"
 
 export PLTHOME PLTCOLLECTS PLTADDONDIR
-
-if [[ ! -d "$PLTHOME" ]]; then
- echo "plt-run: missing PLTHOME directory: $PLTHOME" 1>&2; exit 1
-fi
-
-# the executable name is whatever link is running this
-EXE="`basename \"$0\"`"
 
 # or run this script and give it an executable argument
 if [[ "$EXE" = "plt-run" && "$1" != "" ]]; then EXE="$1"; shift; fi
@@ -23,24 +20,26 @@ if [[ "$EXE" = "plt-run" && "$1" != "" ]]; then EXE="$1"; shift; fi
 # short names
 if [[ "${#EXE}" -le 5 ]]; then
  case "$EXE" in
-   ( mz ) EXE="mzscheme" ;;
    ( r  ) EXE="racket" ;;
    ( rt ) EXE="raco" ;;
-   ( mr ) EXE="mred"     ;;
    ( dr ) EXE="drracket" ;;
    ( gr ) EXE="gracket" ;;
-   ( mzcgc ) EXE="mzschemecgc" ;;
-   ( mrcgc ) EXE="mredcgc"     ;;
    ( drcgc ) EXE="drracketcgc" ;;
    ( grcgc ) EXE="gracketcgc" ;;
  esac
 fi
 
-BIN="$PLTHOME/bin"
+BIN="$PLTHOME/racket/bin/$EXE"
 
-# simple PLT directory
-EXE="$BIN/$EXE"
-if [[ -x "$EXE" ]]; then exec "$EXE" "$@"
-else "plt-run: $EXE not found in $BIN" 1>&2; exit 1; fi
+# support pre-package repository layout
+OLDBIN="$PLTHOME/bin/$EXE"
 
+if [[ -x "$BIN" ]]; then
+    exec "$BIN" "$@"
+elif [[ -x "$OLDBIN" ]]; then
+    exec "$OLDBIN" "$@"
+else
+    echo "$NAME: no executable at \"$BIN\"."
+    exit -1
+fi
 
